@@ -140,6 +140,7 @@ The Prometheus and Loki services may be hosted on the same cluster, or remotely 
 | https://grafana.github.io/helm-charts | alloy-events(alloy) | 0.6.0 |
 | https://grafana.github.io/helm-charts | alloy-logs(alloy) | 0.6.0 |
 | https://grafana.github.io/helm-charts | alloy-profiles(alloy) | 0.6.0 |
+| https://grafana.github.io/helm-charts | alloy-rules(alloy) | 0.6.0 |
 | https://opencost.github.io/opencost-helm-chart | opencost | 1.41.0 |
 | https://prometheus-community.github.io/helm-charts | kube-state-metrics | 5.25.1 |
 | https://prometheus-community.github.io/helm-charts | prometheus-node-exporter | 4.38.0 |
@@ -841,6 +842,37 @@ The Prometheus and Loki services may be hosted on the same cluster, or remotely 
 | receivers.zipkin.enabled | bool | `false` | Receive Zipkin traces |
 | receivers.zipkin.port | int | `9411` | Which port to use for the Zipkin receiver. This port needs to be opened in the alloy section below. |
 | receivers.zipkin.tls | object | `{}` | [TLS settings](https://grafana.com/docs/alloy/latest/reference/components/otelcol.receiver.zipkin/#tls-block) to configure for the Zipkin receiver. |
+
+### Rules
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| rules.enabled | bool | `false` | Enable rules synchronization. |
+
+### Rules (Loki)
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| rules.loki.enabled | bool | `true` | Enable Loki rules synchronization |
+| rules.loki.namespace.label_expressions | list | `[]` | Label expressions for Namespace resources. |
+| rules.loki.namespace.label_selectors | object | `{}` | Label selector for Namespace resources. |
+| rules.loki.prefix | string | alloy | Prefix to be added to the rule namespace, used to differentiate multiple Alloy deployments added. |
+| rules.loki.rule.label_expressions | list | `[]` | Label expressions for PrometheusRule resources. |
+| rules.loki.rule.label_selectors | object | `{"rule_type":"loki"}` | Label selectors for PrometheusRule resources as key/pair values. |
+| rules.loki.sync_interval | string | 5m | Amount of time between reconciliations with Mimir. |
+
+### Rules (Mimir)
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| rules.mimir.enabled | bool | `true` | Enable Mimir rules synchronization |
+| rules.mimir.namespace.label_expressions | list | `[]` | Label expressions for Namespace resources. |
+| rules.mimir.namespace.label_selectors | object | `{}` | Label selector for Namespace resources. |
+| rules.mimir.prefix | string | alloy | Prefix to be added to the rule namespace, used to differentiate multiple Alloy deployments added. |
+| rules.mimir.prometheus_http_prefix | string | /api/prom | Path prefix for Mimir’s Prometheus endpoint (gem-path-prefix). |
+| rules.mimir.rule.label_expressions | list | `[]` | Label expressions for PrometheusRule resources. |
+| rules.mimir.rule.label_selectors | object | `{"rule_type":"mimir"}` | Label selectors for PrometheusRule resources as key/pair values. |
+| rules.mimir.sync_interval | string | 5m | Amount of time between reconciliations with Mimir. |
 
 ### Test Job
 

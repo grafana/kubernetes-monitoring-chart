@@ -65,6 +65,14 @@ traces:
 profiles:
   enabled: true
 
+rules:
+  enabled: true
+  mimir:
+    enabled: false
+  loki:
+    rule_selectors:
+      rule_type: loki
+
 test:
   attempts: 20
   extraQueries:
@@ -83,6 +91,10 @@ test:
       type: logql
     # Check for pod logs
     - query: "count_over_time({cluster=\"ci-test-cluster\", job!=\"integrations/kubernetes/eventhandler\"}[1h])"
+      type: logql
+
+    # Check for rule applied to Loki
+    - query: "log_errors:count1m"
       type: logql
 
     # Check for profiles
