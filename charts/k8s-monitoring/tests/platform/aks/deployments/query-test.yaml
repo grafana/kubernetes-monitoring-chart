@@ -34,6 +34,6 @@ spec:
           - secretRef: {name: grafana-cloud-credentials}
           - configMapRef: {name: test-variables}
         queries:
-          # Metrics are being delivered
-          - query: alloy_build_info{cluster="$CLUSTER"}
-            type: promql
+          # Cluster events
+          - query: count_over_time({cluster="$CLUSTER", job="integrations/kubernetes/eventhandler"}[1h])
+            type: logql

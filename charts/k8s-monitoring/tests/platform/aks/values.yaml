@@ -26,27 +26,8 @@ destinations:
       name: grafana-cloud-credentials
       namespace: default
 
-clusterMetrics:
-  enabled: true
-
 clusterEvents:
   enabled: true
 
-podLogs:
-  enabled: true
-
-integrations:
-  alloy:
-    instances:
-      - name: alloy-metrics
-      - name: alloy-singleton
-      - name: alloy-logs
-
-selfReporting: {scrapeInterval: 1m}  # Force self-report to be generated within test time
-
-alloy-metrics:
-  enabled: true
 alloy-singleton:
-  enabled: true
-alloy-logs:
   enabled: true
