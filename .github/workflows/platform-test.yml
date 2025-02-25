@@ -92,12 +92,6 @@ jobs:
         with:
           install_only: true
 
-      - name: Setup Azure CLI
-        if: ${{ steps.check-cluster-config.outputs.cluster-type == 'aks' }}
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-
       - name: Configure Azure Credentials
         if: ${{ steps.check-cluster-config.outputs.cluster-type == 'aks' }}
         uses: azure/login@v2
@@ -105,6 +99,14 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Setup Azure CLI
+        if: ${{ steps.check-cluster-config.outputs.cluster-type == 'aks' }}
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az version
 
       - name: Setup eksctl CLI
         if: ${{ steps.check-cluster-config.outputs.cluster-type == 'eks' }}
