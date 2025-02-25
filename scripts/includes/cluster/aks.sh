@@ -11,6 +11,7 @@ createAKSCluster() {
     echo "${bashCommand}"
     eval "${bashCommand}"
   fi
+  az aks get-credentials --name "${clusterName}"
 }
 
 deleteAKSCluster() {
