@@ -38,4 +38,25 @@
     {{- $errorMessage := join "\n" $msg }}
   {{- end -}}
 {{- end -}}
+
+{{- if .Values.openShiftClusterLogForwarder.enabled }}
+  {{- if not (eq .Values.global.platform "openshift") }}
+    {{- $msg := list "" "The OpenShift ClusterLogForwarder is only supported on OpenShift clusters." }}
+    {{- $msg = append $msg "Please set:" }}
+    {{- $msg = append $msg "global:" }}
+    {{- $msg = append $msg "  platform: openshift" }}
+    {{- fail (join "\n" $msg) }}
+  {{- end }}
+
+  {{- if not .Values.lokiReceiver.enabled }}
+    {{- $msg := list "" "The OpenShift ClusterLogForwarder requires the Loki Receiver to be enabled." }}
+    {{- $msg = append $msg "Please set:" }}
+    {{- $msg = append $msg "podLogs:" }}
+    {{- $msg = append $msg "  lokiReceiver:" }}
+    {{- $msg = append $msg "    enabled: true" }}
+    {{- fail (join "\n" $msg) }}
+  {{- end }}
+
+{{- end }}
+
 {{- end -}}
